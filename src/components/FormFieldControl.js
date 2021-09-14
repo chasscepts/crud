@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
-import { resetForm } from '../reducers/formSlice';
+import { removeFormField } from '../reducers/formSlice';
 
 const styles = {
   container: {
@@ -59,7 +59,7 @@ export default function FormFieldControl({ fieldKey, value }) {
   const dispatch = useDispatch();
 
   const handleRemoveClick = () => {
-    dispatch(resetForm(fieldKey));
+    dispatch(removeFormField(fieldKey));
   };
 
   const handleExpandClick = () => {

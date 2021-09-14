@@ -4,7 +4,7 @@ import FormFieldControl from './FormFieldControl';
 
 const styles = {
   container: {
-    paddingTop: '10px',
+    padding: '10px 0',
   },
 };
 
