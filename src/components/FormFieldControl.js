@@ -2,6 +2,10 @@ import { useState } from 'react';
 import PropTypes from 'prop-types';
 
 const styles = {
+  container: {
+    marginBottom: '8px',
+    border: '1px dotted #ddd',
+  },
   keyRow: {
     display: 'flex',
     alignItems: 'center',
@@ -22,9 +26,10 @@ const styles = {
     justifyContent: 'center',
     alignItems: 'center',
     fontSize: '0.8rem',
+    cursor: 'pointer',
   }),
   valueText: {
-    padding: '8px 5px 0 25px',
+    padding: '0 5px 5px 35px',
   },
 };
 
@@ -55,7 +60,7 @@ export default function FormFieldControl({ fieldKey, value }) {
   };
 
   return (
-    <div>
+    <div style={styles.container}>
       <div style={styles.keyRow}>
         <FieldButton char={expanded ? '-' : '+'} onClick={handleExpandClick} />
         <div style={styles.keyText}>{fieldKey}</div>

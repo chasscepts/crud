@@ -24,4 +24,4 @@ export const { setFormField, removeFormField, resetForm } = formSlice.actions;
 
 export const selectFormFields = (state) => state.form.fields;
 
-export default formSlice;
+export default formSlice.reducer;
