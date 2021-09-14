@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import PropTypes from 'prop-types';
+import { useDispatch } from 'react-redux';
+import { resetForm } from '../reducers/formSlice';
 
 const styles = {
   container: {
@@ -54,6 +56,11 @@ FieldButton.defaultProps = {
 
 export default function FormFieldControl({ fieldKey, value }) {
   const [expanded, setExpanded] = useState(false);
+  const dispatch = useDispatch();
+
+  const handleRemoveClick = () => {
+    dispatch(resetForm(fieldKey));
+  };
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
@@ -64,7 +71,7 @@ export default function FormFieldControl({ fieldKey, value }) {
       <div style={styles.keyRow}>
         <FieldButton char={expanded ? '-' : '+'} onClick={handleExpandClick} />
         <div style={styles.keyText}>{fieldKey}</div>
-        <FieldButton char="X" color="red" />
+        <FieldButton char="X" color="red" onClick={handleRemoveClick} />
       </div>
       {expanded && <div style={styles.valueText}>{value}</div>}
     </div>
