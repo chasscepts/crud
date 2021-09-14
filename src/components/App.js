@@ -1,7 +1,9 @@
 import styles from '../assets/css/App.module.css';
+import TabControl from '../containers/TabControl';
 import AddressBar from './AddressBar';
-import Form from './Form';
-import ResponsePanel from './ResponsePanel';
+import FormPanel from './FormPanel';
+import ResponseBody from './ResponseBody';
+import ResponseHeader from './ResponseHeader';
 
 function App() {
   return (
@@ -12,10 +14,19 @@ function App() {
       <main className={styles.main}>
         <div className={styles.left}>
           <AddressBar />
-          <div className={styles.formWrap}><Form /></div>
+          <div className={styles.formWrap}><FormPanel /></div>
         </div>
         <div className={styles.right}>
-          <ResponsePanel />
+          <div className={styles.rightInner}>
+            <TabControl
+              activeHeader="Body"
+              headers={['Head', 'Body']}
+              items={[
+                <ResponseHeader key="Head" />,
+                <ResponseBody key="Body" />,
+              ]}
+            />
+          </div>
         </div>
       </main>
     </div>

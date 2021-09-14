@@ -20,14 +20,20 @@
   padding: 4px;
 }
 
-.left,
 .right {
-  flex: 0 0 50%;
+  flex: 0 0 40%;
+  padding: 5px 0 0 10px;
+}
+
+.rightInner {
+  border: 1px solid #ddd;
+  height: 100%;
 }
 
 .left {
   display:flex;
   flex-direction: column;
+  flex: 0 0 60%;
 }
 
 .formWrap {

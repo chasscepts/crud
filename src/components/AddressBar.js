@@ -34,7 +34,7 @@ export default function AddressBar() {
       <select style={styles.select}>
         {methods.map((m) => <option key={m} value={m}>{m}</option>)}
       </select>
-      <input style={styles.url} placeholder="Enter url" />
+      <input style={styles.url} type="text" placeholder="Enter url" />
       <button style={styles.btn} type="button">GO</button>
     </div>
   );

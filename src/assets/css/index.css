@@ -32,3 +32,51 @@ h6 {
   margin: 0;
 }
 
+input,
+select,
+textarea {
+  outline: none;
+}
+
+input[type=text],
+input[type=email],
+textarea,
+select {
+  border: 1px solid #ddd;
+}
+
+input[type=text],
+input[type=email] {
+  padding: 7px 10px;
+}
+
+textarea {
+  padding: 15px;
+}
+
+.btn {
+  padding: 8px 20px;
+  background-color: transparent;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+}
+
+.btn.btn-blue {
+  color: #fff;
+  background-color: #62b5e5;
+}
+
+.btn.btn-red {
+  color: #fff;
+  background-color: #c12929;
+}
+
+.btn:hover {
+  opacity: 0.8;
+}
+
+.uppercase {
+  text-transform: uppercase;
+}

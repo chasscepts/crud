@@ -1,7 +1,5 @@
 import { useState } from 'react';
 import PropTypes from 'prop-types';
-import ResponseHeader from './ResponseHeader';
-import ResponseBody from './ResponseBody';
 
 const styles = {
   tab: {
@@ -25,7 +23,7 @@ const styles = {
   }),
 };
 
-function HeaderButton({ label, isActive, clickHandler }) {
+function Header({ label, isActive, clickHandler }) {
   const raiseClickEvent = () => {
     clickHandler(label);
   };
@@ -35,17 +33,14 @@ function HeaderButton({ label, isActive, clickHandler }) {
   );
 }
 
-HeaderButton.propTypes = {
+Header.propTypes = {
   label: PropTypes.string.isRequired,
   isActive: PropTypes.bool.isRequired,
   clickHandler: PropTypes.func.isRequired,
 };
 
-const HEADER = 'Header';
-const BODY = 'Body';
-
-export default function ResponsePanel() {
-  const [activeTab, setActiveTab] = useState(BODY);
+export default function TabControl({ activeHeader, headers, items }) {
+  const [activeTab, setActiveTab] = useState(activeHeader || headers[0]);
 
   const switchTab = (tab) => {
     if (tab === activeTab) {
@@ -57,13 +52,23 @@ export default function ResponsePanel() {
   return (
     <div style={styles.tab}>
       <div style={styles.header}>
-        <HeaderButton label={HEADER} isActive={activeTab === HEADER} clickHandler={switchTab} />
-        <HeaderButton label={BODY} isActive={activeTab === BODY} clickHandler={switchTab} />
+        {headers.map(
+          (h) => <Header key={h} label={h} isActive={activeTab === h} clickHandler={switchTab} />,
+        )}
       </div>
       <div style={styles.items}>
-        {activeTab === HEADER && <ResponseHeader />}
-        {activeTab === BODY && <ResponseBody />}
+        {items[headers.indexOf(activeTab)]}
       </div>
     </div>
   );
 }
+
+TabControl.propTypes = {
+  activeHeader: PropTypes.string,
+  headers: PropTypes.arrayOf(PropTypes.string).isRequired,
+  items: PropTypes.arrayOf(PropTypes.element).isRequired,
+};
+
+TabControl.defaultProps = {
+  activeHeader: null,
+};
