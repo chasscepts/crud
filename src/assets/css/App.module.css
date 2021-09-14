@@ -1,7 +1,35 @@
 .container {
-  margin: auto;
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
 .header {
   text-align: center;
+  background-color: #62b5e5;
+  color: #fff;
+  padding: 15px;
+}
+
+.main {
+  position: relative;
+  flex: 1;
+  display: flex;
+  padding: 4px;
+}
+
+.left,
+.right {
+  flex: 0 0 50%;
+}
+
+.left {
+  display:flex;
+  flex-direction: column;
+}
+
+.formWrap {
+  flex: 1;
 }
