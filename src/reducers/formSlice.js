@@ -1,5 +1,6 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
 
+/* eslint-disable no-param-reassign */
 const formSlice = createSlice({
   name: 'form',
   initialState: {
@@ -10,13 +11,14 @@ const formSlice = createSlice({
       state.fields[action.payload.key] = action.payload.value;
     },
     removeFormField: (state, action) => {
-      delete state.fields[action.payload]
+      delete state.fields[action.payload];
     },
     resetForm: (state) => {
       state.fields = {};
     },
   },
 });
+/* eslint-enable no-param-reassign */
 
 export const { setFormField, removeFormField, resetForm } = formSlice.actions;
 

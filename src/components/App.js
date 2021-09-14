@@ -1,7 +1,7 @@
 import styles from '../assets/css/App.module.css';
 import TabControl from '../containers/TabControl';
 import AddressBar from './AddressBar';
-import FormPanel from './FormPanel';
+import FormPanel from '../containers/FormPanel';
 import ResponseBody from './ResponseBody';
 import ResponseHeader from './ResponseHeader';
 
