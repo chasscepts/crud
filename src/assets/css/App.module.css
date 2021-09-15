@@ -33,7 +33,7 @@
 }
 
 .left {
-  display:flex;
+  display: flex;
   flex-direction: column;
   flex: 0 0 60%;
 }

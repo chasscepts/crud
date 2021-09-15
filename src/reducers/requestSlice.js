@@ -57,7 +57,6 @@ export const fetchAsync = (url, method) => (dispatch, getState) => {
 
   axios(config)
     .then((res) => {
-      console.log(res);
       dispatch(setResponse({ error: null, header: res.headers, body: res.data }));
     })
     .catch((err) => {
