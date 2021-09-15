@@ -39,7 +39,9 @@ Header.propTypes = {
   clickHandler: PropTypes.func.isRequired,
 };
 
-export default function TabControl({ activeHeader, headers, items }) {
+export default function TabControl({
+  activeHeader, headers, items, panelStyle,
+}) {
   const [activeTab, setActiveTab] = useState(activeHeader || headers[0]);
 
   const switchTab = (tab) => {
@@ -49,6 +51,11 @@ export default function TabControl({ activeHeader, headers, items }) {
     setActiveTab(tab);
   };
 
+  let itemStyle = styles.items;
+  if (panelStyle) {
+    itemStyle = { ...panelStyle, ...styles.items };
+  }
+
   return (
     <div style={styles.tab}>
       <div style={styles.header}>
@@ -56,7 +63,7 @@ export default function TabControl({ activeHeader, headers, items }) {
           (h) => <Header key={h} label={h} isActive={activeTab === h} clickHandler={switchTab} />,
         )}
       </div>
-      <div style={styles.items}>
+      <div style={itemStyle}>
         {items[headers.indexOf(activeTab)]}
       </div>
     </div>
@@ -67,8 +74,12 @@ TabControl.propTypes = {
   activeHeader: PropTypes.string,
   headers: PropTypes.arrayOf(PropTypes.string).isRequired,
   items: PropTypes.arrayOf(PropTypes.element).isRequired,
+  /* eslint-disable react/forbid-prop-types */
+  panelStyle: PropTypes.object,
+  /* eslint-enable react/forbid-prop-types */
 };
 
 TabControl.defaultProps = {
   activeHeader: null,
+  panelStyle: null,
 };

@@ -1,9 +1,7 @@
 import styles from '../assets/css/App.module.css';
-import TabControl from '../containers/TabControl';
 import AddressBar from './AddressBar';
 import FormPanel from '../containers/FormPanel';
-import ResponseBody from './ResponseBody';
-import ResponseHeader from './ResponseHeader';
+import ResponseViewer from './ResponseViewer';
 
 function App() {
   return (
@@ -18,14 +16,7 @@ function App() {
         </div>
         <div className={styles.right}>
           <div className={styles.rightInner}>
-            <TabControl
-              activeHeader="Body"
-              headers={['Head', 'Body']}
-              items={[
-                <ResponseHeader key="Head" />,
-                <ResponseBody key="Body" />,
-              ]}
-            />
+            <ResponseViewer />
           </div>
         </div>
       </main>

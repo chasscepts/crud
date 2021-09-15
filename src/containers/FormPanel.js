@@ -57,6 +57,7 @@ export default function FormPanel() {
                 <FormFieldsControls key="controls" />,
                 <FormFieldsJson key="json" />,
               ]}
+              panelStyle={{ overflow: 'auto', borderTop: '1px solid #62b5e5' }}
             />
           </div>
         </div>
