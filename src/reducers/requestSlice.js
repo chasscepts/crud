@@ -9,7 +9,7 @@ const requestSlice = createSlice({
     count: 0,
     error: null,
     responseBody: null,
-    responseHeader: { name: 'Francis' },
+    responseHeader: null,
   },
   reducers: {
     incrementCount: (state) => {
@@ -39,6 +39,8 @@ const requestSlice = createSlice({
 });
 /* eslint-enable no-param-reassign */
 
+const corsMsg = 'No response was received. Please check your browser console to see if CORS is disabled on the server.';
+
 export const { incrementCount, setResponse } = requestSlice.actions;
 
 export const fetchAsync = (url, method) => (dispatch, getState) => {
@@ -60,23 +62,35 @@ export const fetchAsync = (url, method) => (dispatch, getState) => {
       dispatch(setResponse({ error: null, header: res.headers, body: res.data }));
     })
     .catch((err) => {
-      if (err.toJSON) {
-        dispatch(setResponse({ error: err.toJSON(), header: err.response.headers, body: null }));
-        return;
-      }
-      if (typeof err === 'string') {
-        dispatch(setResponse({ error: { message: err }, header: null, body: null }));
-        return;
-      }
       if (!err) {
         dispatch(setResponse({ error: { message: 'Unknown Error' }, header: null, body: null }));
+        return;
+      }
+      if (err.response) {
+        const { status, headers, data } = err.response;
+        dispatch(setResponse({ error: { status, data }, header: headers, body: null }));
+        return;
+      }
+      if (err.request) {
+        // The request was made but no response was received
+        // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
+        // http.ClientRequest in node.js
+        console.log(err.request);
+        dispatch(setResponse({ error: { message: corsMsg }, header: null, body: null }));
         return;
       }
       if (err.message) {
         dispatch(setResponse({ error: { message: err.message }, header: null, body: null }));
         return;
       }
+      if (typeof err === 'string') {
+        dispatch(setResponse({ error: { message: err }, header: null, body: null }));
+        return;
+      }
       dispatch(setResponse({ error: { message: 'Unknown Error' }, header: null, body: null }));
+    })
+    .catch((err) => {
+      console.log(err);
     });
 };
 

@@ -1,4 +1,5 @@
 /* eslint-disable no-useless-escape */
+// https://stackoverflow.com/a/7220510
 
 export default function syntaxHighlight(jsonArg) {
   const json = JSON.stringify(jsonArg, undefined, 1).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');

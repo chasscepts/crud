@@ -11,9 +11,9 @@ export default function ResponseViewer() {
   return (
     <TabControl
       activeHeader="Body"
-      headers={['Head', 'Body', 'Error']}
+      headers={['Header', 'Body', 'Error']}
       items={[
-        <JsonViewer key="Head" json={header} />,
+        <JsonViewer key="Header" json={header} />,
         <JsonViewer key="Body" json={body} />,
         <JsonViewer key="Error" json={error} />,
       ]}
