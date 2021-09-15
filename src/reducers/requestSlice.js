@@ -9,20 +9,21 @@ const requestSlice = createSlice({
     count: 0,
     error: null,
     responseBody: null,
-    responseHeader: {},
+    responseHeader: { name: 'Francis' },
   },
   reducers: {
     incrementCount: (state) => {
       state.count += 1;
       state.hasPendingRequest = true;
     },
-    setResponse: (state, { response }) => {
+    setResponse: (state, action) => {
+      const response = action.payload;
       state.responseHeader = response.header;
       if (response.error) {
         state.error = response.error;
         state.responseBody = null;
       } else {
-        state.responseBody = response.json;
+        state.responseBody = response.body;
         state.error = null;
       }
 
@@ -56,16 +57,33 @@ export const fetchAsync = (url, method) => (dispatch, getState) => {
 
   axios(config)
     .then((res) => {
+      console.log(res);
       dispatch(setResponse({ error: null, header: res.headers, body: res.data }));
     })
     .catch((err) => {
-      dispatch(setResponse({ error: err.toJSON(), header: err.response.headers, body: null }));
+      if (err.toJSON) {
+        dispatch(setResponse({ error: err.toJSON(), header: err.response.headers, body: null }));
+        return;
+      }
+      if (typeof err === 'string') {
+        dispatch(setResponse({ error: { message: err }, header: null, body: null }));
+        return;
+      }
+      if (!err) {
+        dispatch(setResponse({ error: { message: 'Unknown Error' }, header: null, body: null }));
+        return;
+      }
+      if (err.message) {
+        dispatch(setResponse({ error: { message: err.message }, header: null, body: null }));
+        return;
+      }
+      dispatch(setResponse({ error: { message: 'Unknown Error' }, header: null, body: null }));
     });
 };
 
 export const selectHasPendingRequests = (state) => state.request.hasPendingRequests;
 
-export const selectErrorMessage = (state) => state.request.errorMessage;
+export const selectRequestError = (state) => state.request.error;
 
 export const selectResponseHeader = (state) => state.request.responseHeader;
 

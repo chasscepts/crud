@@ -1,3 +1,6 @@
+import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { fetchAsync } from '../reducers/requestSlice';
 import { requestMethods } from '../utility';
 
 const styles = {
@@ -29,13 +32,32 @@ const styles = {
 const methods = Object.values(requestMethods);
 
 export default function AddressBar() {
+  const [url, setUrl] = useState('');
+  const [method, setMethod] = useState(methods[0]);
+
+  const dispatch = useDispatch();
+
+  const handleChange = (evt) => {
+    const { name, value } = evt.target;
+    if (name === 'url') {
+      setUrl(value);
+    } else if (name === 'method') {
+      setMethod(value);
+    }
+  };
+
+  const handleSubmit = () => {
+    if (!url) return;
+    dispatch(fetchAsync(url, method));
+  };
+
   return (
     <div style={styles.container}>
-      <select style={styles.select}>
+      <select style={styles.select} name="method" value={method} onChange={handleChange}>
         {methods.map((m) => <option key={m} value={m}>{m}</option>)}
       </select>
-      <input style={styles.url} type="text" placeholder="Enter url" />
-      <button style={styles.btn} type="button">GO</button>
+      <input style={styles.url} type="text" placeholder="Enter url" name="url" value={url} onChange={handleChange} />
+      <button style={styles.btn} type="button" onClick={handleSubmit}>GO</button>
     </div>
   );
 }
