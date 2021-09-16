@@ -10,6 +10,7 @@ const requestSlice = createSlice({
     error: null,
     responseBody: null,
     responseHeader: null,
+    requestHeaders: {},
   },
   reducers: {
     incrementCount: (state) => {
@@ -35,13 +36,25 @@ const requestSlice = createSlice({
         state.hasPendingRequest = false;
       }
     },
+    addHeader: (state, action) => {
+      const { key, value } = action.payload;
+      state.requestHeaders[key] = value;
+    },
+    clearHeaders: (state) => {
+      state.requestHeaders = {};
+    },
   },
 });
 /* eslint-enable no-param-reassign */
 
 const corsMsg = 'No response was received. Please check your browser console to see if CORS is disabled on the server.';
 
-export const { incrementCount, setResponse } = requestSlice.actions;
+export const {
+  incrementCount,
+  setResponse,
+  addHeader,
+  clearHeaders,
+} = requestSlice.actions;
 
 export const fetchAsync = (url, method) => (dispatch, getState) => {
   const state = getState();
@@ -55,6 +68,10 @@ export const fetchAsync = (url, method) => (dispatch, getState) => {
 
   if (methodLowerCase !== 'get') {
     config.data = state.form.fields;
+  }
+
+  if (Object.keys(state.request.requestHeaders).length > 0) {
+    config.headers = state.request.requestHeaders;
   }
 
   axios(config)
@@ -75,7 +92,6 @@ export const fetchAsync = (url, method) => (dispatch, getState) => {
         // The request was made but no response was received
         // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
         // http.ClientRequest in node.js
-        console.log(err.request);
         dispatch(setResponse({ error: { message: corsMsg }, header: null, body: null }));
         return;
       }
@@ -101,5 +117,7 @@ export const selectRequestError = (state) => state.request.error;
 export const selectResponseHeader = (state) => state.request.responseHeader;
 
 export const selectResponseBody = (state) => state.request.responseBody;
+
+export const selectRequestHeaders = (state) => state.request.requestHeaders;
 
 export default requestSlice.reducer;

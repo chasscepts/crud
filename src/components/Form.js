@@ -46,9 +46,11 @@ export default function Form() {
   };
 
   const handleSubmit = () => {
-    dispatch(setFormField({ key, value }));
-    setKey('');
-    setValue('');
+    if (key && value) {
+      dispatch(setFormField({ key, value }));
+      setKey('');
+      setValue('');
+    }
   };
 
   const handleResetForm = () => dispatch(resetForm());

@@ -68,9 +68,16 @@ textarea {
   padding: 8px 20px;
   background-color: transparent;
   border: none;
-  border-radius: 4px;
   cursor: pointer;
   transition: all 0.3s ease-in-out;
+}
+
+.btn.sm {
+  padding: 3px 5px;
+}
+
+.btn.round {
+  border-radius: 4px;
 }
 
 .btn.btn-blue {

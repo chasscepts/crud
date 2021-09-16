@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { fetchAsync } from '../reducers/requestSlice';
 import { requestMethods } from '../utility';
+import RequestHeader from './RequestHeader';
 
 const styles = {
   container: {
@@ -12,6 +13,7 @@ const styles = {
   },
   select: {
     outline: 'none',
+    marginLeft: '4px',
   },
   url: {
     flex: 1,
@@ -53,6 +55,7 @@ export default function AddressBar() {
 
   return (
     <div style={styles.container}>
+      <RequestHeader />
       <select style={styles.select} name="method" value={method} onChange={handleChange}>
         {methods.map((m) => <option key={m} value={m}>{m}</option>)}
       </select>
