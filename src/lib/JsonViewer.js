@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import syntaxHighlight from './syntaxHighlight';
+/* eslint-disable react/no-danger */
 
 const styles = {
   container: {

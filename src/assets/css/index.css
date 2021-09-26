@@ -50,13 +50,15 @@ textarea {
 
 input[type=text],
 input[type=email],
+input[type=url],
 textarea,
 select {
   border: 1px solid #ddd;
 }
 
 input[type=text],
-input[type=email] {
+input[type=email],
+input[type=url] {
   padding: 7px 10px;
 }
 

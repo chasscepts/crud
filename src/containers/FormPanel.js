@@ -43,7 +43,7 @@ export default function FormPanel() {
       <fieldset style={styles.fieldset}>
         <legend style={styles.legend}>
           Form
-          <span style={styles.legendRider}>[Content is sent in post and put requests]</span>
+          <span style={styles.legendRider}>[form data is NOT sent in get and delete requests]</span>
         </legend>
         <div style={styles.body}>
           <div style={styles.left}>

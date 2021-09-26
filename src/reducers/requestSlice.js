@@ -1,5 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
-import axios from 'axios';
+import {
+  get, post, put, destroy,
+} from '../services/request';
 
 /* eslint-disable no-param-reassign */
 const requestSlice = createSlice({
@@ -15,26 +17,24 @@ const requestSlice = createSlice({
   reducers: {
     incrementCount: (state) => {
       state.count += 1;
-      state.hasPendingRequest = true;
+      state.hasPendingRequests = true;
     },
-    setResponse: (state, action) => {
-      const response = action.payload;
-      state.responseHeader = response.header;
-      if (response.error) {
-        state.error = response.error;
+    setResponse: (state, { payload: { body, error, header } }) => {
+      state.responseHeader = header;
+      if (error) {
+        state.error = error;
         state.responseBody = null;
       } else {
-        state.responseBody = response.body;
+        state.responseBody = body;
         state.error = null;
       }
 
-      if (state.count === 0) {
-        return;
+      let temp = state.count - 1;
+      if (temp <= 0) {
+        temp = 0;
+        state.hasPendingRequests = false;
       }
-      state.count -= 1;
-      if (state.count === 0) {
-        state.hasPendingRequest = false;
-      }
+      state.count = temp;
     },
     addHeader: (state, action) => {
       const { key, value } = action.payload;
@@ -47,8 +47,6 @@ const requestSlice = createSlice({
 });
 /* eslint-enable no-param-reassign */
 
-const corsMsg = 'No response was received. Please check your browser console to see if CORS is disabled on the server.';
-
 export const {
   incrementCount,
   setResponse,
@@ -58,56 +56,31 @@ export const {
 
 export const fetchAsync = (url, method) => (dispatch, getState) => {
   const state = getState();
-  const methodLowerCase = method.toLowerCase();
   dispatch(incrementCount());
-  const config = {
-    url,
-    method: methodLowerCase,
-    responseType: 'json',
-  };
-
-  if (methodLowerCase !== 'get') {
-    config.data = state.form.fields;
-  }
+  let headers = null;
 
   if (Object.keys(state.request.requestHeaders).length > 0) {
-    config.headers = state.request.requestHeaders;
+    headers = state.request.requestHeaders;
   }
 
-  axios(config)
-    .then((res) => {
-      dispatch(setResponse({ error: null, header: res.headers, body: res.data }));
-    })
-    .catch((err) => {
-      if (!err) {
-        dispatch(setResponse({ error: { message: 'Unknown Error' }, header: null, body: null }));
-        return;
-      }
-      if (err.response) {
-        const { status, headers, data } = err.response;
-        dispatch(setResponse({ error: { status, data }, header: headers, body: null }));
-        return;
-      }
-      if (err.request) {
-        // The request was made but no response was received
-        // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
-        // http.ClientRequest in node.js
-        dispatch(setResponse({ error: { message: corsMsg }, header: null, body: null }));
-        return;
-      }
-      if (err.message) {
-        dispatch(setResponse({ error: { message: err.message }, header: null, body: null }));
-        return;
-      }
-      if (typeof err === 'string') {
-        dispatch(setResponse({ error: { message: err }, header: null, body: null }));
-        return;
-      }
-      dispatch(setResponse({ error: { message: 'Unknown Error' }, header: null, body: null }));
-    })
-    .catch((err) => {
-      console.log(err);
-    });
+  let fetcher;
+  switch (method.toLowerCase()) {
+    case 'post':
+      fetcher = post(url, state.form.fields, headers);
+      break;
+    case 'update':
+      fetcher = put(url, state.form.fields, headers);
+      break;
+    case 'delete':
+      fetcher = destroy(url, headers);
+      break;
+    default:
+      fetcher = get(url, headers);
+  }
+
+  fetcher
+    .then(({ headers, body }) => dispatch(setResponse({ error: null, headers, body })))
+    .catch((error) => dispatch(setResponse({ header: null, error, body: null })));
 };
 
 export const selectHasPendingRequests = (state) => state.request.hasPendingRequests;

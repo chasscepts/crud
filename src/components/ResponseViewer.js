@@ -20,6 +20,7 @@ const styles = {
   },
   tabWrap: {
     flex: 1,
+    overflow: 'hidden',
   },
 };
 
