@@ -1,0 +1,109 @@
+.hamburger {
+  position: absolute;
+  top: 17px;
+  right: 10px;
+  outline: none;
+  border: none;
+  width: 24px;
+  height: 24px;
+  background-color: transparent;
+  cursor: pointer;
+}
+
+.hamburger > span {
+  display: block;
+  position: absolute;
+  width: 24px;
+  height: 4px;
+  background-color: #fff;
+  left: 0;
+  top: 10px;
+  transition: all 0.5s ease-in-out;
+}
+
+.hamburger::before {
+  content: "";
+  position: absolute;
+  width: 24px;
+  height: 4px;
+  background-color: #fff;
+  left: 0;
+  top: 0;
+  transform-origin: center;
+  transition: top 0.3s 0.3s ease-in-out, transform 0.3s ease-in-out;
+}
+
+.hamburger::after {
+  content: "";
+  position: absolute;
+  width: 24px;
+  height: 4px;
+  background-color: #fff;
+  left: 0;
+  bottom: 0;
+  transform-origin: center;
+  transition: bottom 0.3s 0.3s ease-in-out, transform 0.3s ease-in-out;
+}
+
+.hamburger.open > span {
+  opacity: 0;
+  background-color: transparent;
+}
+
+.hamburger.open::before {
+  top: 10px;
+  background-color: #ec5242;
+  transform: rotate(-45deg);
+  transition: all 0.3s ease-in-out, transform 0.3s 0.3s ease-in-out;
+}
+
+.hamburger.open::after {
+  bottom: 10px;
+  background-color: #ec5242;
+  transform: rotate(45deg);
+  transition: all 0.3s ease-in-out, transform 0.3s 0.3s ease-in-out;
+}
+
+.container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  max-width: 320px;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.header {
+  position: relative;
+  width: 50px;
+  height: 67px;
+  transition: width 0.5s linear;
+  pointer-events: all;
+}
+
+.header.open {
+  width: 100%;
+  border-right: 1px solid #ddd;
+}
+
+.drawer {
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  margin-top: 67px;
+  padding: 10px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  background-color: #fff;
+  transition: left 0.5s linear;
+  border-right: 1px solid #ddd;
+  pointer-events: all;
+}
+
+.drawer.open {
+  left: 0;
+}

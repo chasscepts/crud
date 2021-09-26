@@ -99,3 +99,7 @@ textarea {
 .uppercase {
   text-transform: uppercase;
 }
+
+.last-clear-margin-bottom:last-child {
+  margin-bottom: 0;
+}

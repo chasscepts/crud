@@ -2,6 +2,7 @@ import styles from '../assets/css/App.module.css';
 import AddressBar from './AddressBar';
 import FormPanel from '../containers/FormPanel';
 import ResponseViewer from './ResponseViewer';
+import Drawer from '../containers/Drawer';
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
           </div>
         </div>
       </main>
+      <Drawer />
     </div>
   );
 }
