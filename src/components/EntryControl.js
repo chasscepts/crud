@@ -56,12 +56,26 @@ export default function EntryControl({ fieldKey, value, onRemove }) {
   const [expanded, setExpanded] = useState(false);
 
   const handleRemoveClick = () => {
-    onRemove({ key: fieldKey });
+    onRemove(fieldKey);
   };
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
+
+  let val = value;
+  const type = typeof value;
+  if (type === 'boolean') {
+    val = value ? 'True' : 'False';
+  } else if (type === 'object') {
+    if (!value) {
+      val = 'Null';
+    } else if (value instanceof Array) {
+      val = '[Array]';
+    } else {
+      val = '[Object]';
+    }
+  }
 
   return (
     <div style={styles.container}>
@@ -70,13 +84,18 @@ export default function EntryControl({ fieldKey, value, onRemove }) {
         <div style={styles.keyText}>{fieldKey}</div>
         <FieldButton char="X" color="red" onClick={handleRemoveClick} />
       </div>
-      {expanded && <div style={styles.valueText}>{value}</div>}
+      {expanded && <div style={styles.valueText}>{val}</div>}
     </div>
   );
 }
 
 EntryControl.propTypes = {
   fieldKey: PropTypes.string.isRequired,
-  value: PropTypes.string.isRequired,
+  // eslint-disable-next-line
+  value: PropTypes.any,
   onRemove: PropTypes.func.isRequired,
+};
+
+EntryControl.defaultProps = {
+  value: null,
 };

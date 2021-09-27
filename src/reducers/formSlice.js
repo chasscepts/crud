@@ -10,8 +10,8 @@ const formSlice = createSlice({
     setFormField: (state, action) => {
       state.fields[action.payload.key] = action.payload.value;
     },
-    removeFormField: (state, action) => {
-      delete state.fields[action.payload];
+    removeFormField: (state, { payload }) => {
+      delete state.fields[payload];
     },
     resetForm: (state) => {
       state.fields = {};

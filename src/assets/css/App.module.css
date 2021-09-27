@@ -36,8 +36,11 @@
   display: flex;
   flex-direction: column;
   flex: 0 0 60%;
+  height: 100%;
+  overflow: hidden;
 }
 
 .formWrap {
   flex: 1;
+  overflow: hidden;
 }

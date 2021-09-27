@@ -2,38 +2,48 @@ import Form from '../components/Form';
 import TabControl from './TabControl';
 import FormFieldsControls from '../components/FormFieldsControls';
 import FormFieldsJson from '../components/FormFieldsJson';
+import { COLORS } from '../utility';
 
 const styles = {
   container: {
     height: '100%',
+    overflow: 'hidden',
   },
   fieldset: {
     height: '100%',
-    border: '1px solid #ddd',
+    padding: '10px 0 0',
+    border: `0 dotted ${COLORS.primary}`,
+    borderTopWidth: '1px',
   },
   legend: {
     fontWeight: 'bold',
     fontSize: '1.4rem',
   },
   legendRider: {
-    color: 'red',
+    color: COLORS.primary,
     fontSize: '0.7rem',
   },
   body: {
-    display: 'flex',
+    display: 'grid',
+    gridTemplateColumns: '2fr 3fr',
+    gap: '10px',
     position: 'relative',
     height: '100%',
   },
   left: {
     flex: '0 0 40%',
+    columnSpan: '2',
     padding: '10px',
     height: '100%',
+    border: '1px solid #ddd',
   },
   right: {
     flex: '0 0 60%',
-    padding: '0 10px 10px 10px',
-    borderLeft: '1px solid #ddd',
+    columnSpan: 3,
     height: '100%',
+    overflow: 'hidden',
+    paddingBottom: '10px',
+    border: '1px solid #ddd',
   },
 };
 
@@ -43,7 +53,7 @@ export default function FormPanel() {
       <fieldset style={styles.fieldset}>
         <legend style={styles.legend}>
           Form
-          <span style={styles.legendRider}>[form data is NOT sent in get and delete requests]</span>
+          <span style={styles.legendRider}>[Uploaded in POST/PUT requests]</span>
         </legend>
         <div style={styles.body}>
           <div style={styles.left}>

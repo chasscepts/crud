@@ -23,10 +23,10 @@ const styles = {
     position: 'relative',
     display: 'flex',
     alignItems: 'center',
-    paddingLeft: `${30 + (depth * 8)}px`,
+    paddingLeft: `${10 + (depth * 16)}px`,
   }),
   close: (depth) => ({
-    paddingLeft: `${30 + (depth * 8)}px`,
+    paddingLeft: `${10 + (depth * 16)}px`,
   }),
   btn: {
     position: 'absolute',
@@ -54,7 +54,9 @@ const styles = {
   },
 };
 
-function JsonRow({ property, value, depth }) {
+function JsonRow({
+  property, value, depth, root,
+}) {
   const [expanded, setExpanded] = useState(true);
 
   const lType = typeof value;
@@ -64,11 +66,17 @@ function JsonRow({ property, value, depth }) {
       val = '[Func]';
     } else if (lType === 'string') {
       val = `"${val}"`;
+    } else if (lType === 'boolean') {
+      val = val ? 'true' : 'false';
     }
     return (
       <div style={styles.keyRow(depth + 1)}>
-        {property && <span style={colors.key}>{property}</span>}
-        <span style={styles.sep}>:</span>
+        {property && (
+        <>
+          <span style={colors.key}>{property}</span>
+          <span style={styles.sep}>:</span>
+        </>
+        )}
         <span style={colors[lType]}>{val}</span>
         <span style={colors[lType]}>,</span>
       </div>
@@ -76,6 +84,16 @@ function JsonRow({ property, value, depth }) {
   }
 
   if (!value) {
+    if (property) {
+      return (
+        <div style={styles.keyRow(depth + 1)}>
+          {property && <span style={colors.key}>{property}</span>}
+          <span style={styles.sep}>:</span>
+          <span style={colors.null}>Null</span>
+          <span style={colors.null}>,</span>
+        </div>
+      );
+    }
     return <div style={{ ...colors.null, padding: '15px' }}>Null</div>;
   }
 
@@ -89,7 +107,7 @@ function JsonRow({ property, value, depth }) {
 
   return (
     <>
-      <div style={styles.keyRow(depth)}>
+      <div style={styles.keyRow(depth + 1)}>
         <button style={btnStyle} type="button" onClick={toggleExpand}>
           <img style={styles.icon} src={triangle} alt="arrow" />
         </button>
@@ -104,6 +122,7 @@ function JsonRow({ property, value, depth }) {
           <>
             <span style={styles.collapsedContent}>&#x21D4;</span>
             <span>{bracket.close}</span>
+            {!root && <span>,</span>}
           </>
         )}
       </div>
@@ -117,7 +136,12 @@ function JsonRow({ property, value, depth }) {
         ))}
       </div>
       )}
-      {expanded && <div style={styles.close(depth)}>{bracket.close}</div>}
+      {expanded && (
+      <div style={styles.close(depth + 1)}>
+        {bracket.close}
+        {!root && <span>,</span>}
+      </div>
+      )}
     </>
   );
 }
@@ -126,12 +150,14 @@ JsonRow.propTypes = {
   value: PropTypes.any,
   property: PropTypes.string,
   depth: PropTypes.number,
+  root: PropTypes.bool,
 };
 
 JsonRow.defaultProps = {
   property: null,
   depth: 0,
   value: null,
+  root: false,
 };
 
 export default function JsonViewer({ json }) {
@@ -151,7 +177,7 @@ export default function JsonViewer({ json }) {
     }
   }
 
-  return <JsonRow value={obj} depth={0} />;
+  return <JsonRow value={obj} depth={0} root />;
 }
 
 JsonViewer.propTypes = {

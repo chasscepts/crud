@@ -51,6 +51,7 @@ textarea {
 input[type=text],
 input[type=email],
 input[type=url],
+input[type=number],
 textarea,
 select {
   border: 1px solid #ddd;
@@ -58,7 +59,8 @@ select {
 
 input[type=text],
 input[type=email],
-input[type=url] {
+input[type=url],
+input[type=number] {
   padding: 7px 10px;
 }
 

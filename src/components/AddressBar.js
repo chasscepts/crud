@@ -9,7 +9,6 @@ const styles = {
     display: 'flex',
     alignItems: 'center',
     padding: '7px',
-    margin: '4px',
     border: '1px solid #ddd',
   },
   select: {
