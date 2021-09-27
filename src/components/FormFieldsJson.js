@@ -1,4 +1,5 @@
 import { useSelector } from 'react-redux';
+import JsonViewer from '../lib/JsonViewer';
 import { selectFormFields } from '../reducers/formSlice';
 
 const styles = {
@@ -11,7 +12,7 @@ export default function FormFieldsJson() {
   const fields = useSelector(selectFormFields);
   return (
     <div style={styles.container}>
-      <pre>{JSON.stringify(fields, undefined, 1)}</pre>
+      <JsonViewer json={fields} />
     </div>
   );
 }

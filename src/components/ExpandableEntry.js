@@ -41,6 +41,7 @@ const styles = {
     width: '100%',
     maxHeight: '150px',
     overflow: 'auto',
+    wordBreak: 'break-word',
   },
 };
 

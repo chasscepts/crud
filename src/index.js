@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import store from './app/store';
 import './assets/css/index.css';
-import './assets/css/syntaxHighlight.css';
 import App from './components/App';
 import reportWebVitals from './reportWebVitals';
 

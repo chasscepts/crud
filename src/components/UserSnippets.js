@@ -1,12 +1,18 @@
 import { useState } from 'react';
 import { getSnippets, addSnippet, deleteSnippet } from '../services/storage';
-import ExpandableEntry from './ExpandableEntry';
 import { COLORS } from '../utility';
+import ExpandableEntry from './ExpandableEntry';
 
 const styles = {
   fieldset: {
     border: '1px solid #ddd',
     padding: '5px',
+    margin: '15px 0 0',
+  },
+  legend: {
+    fontWeight: 'bold',
+    fontSize: '1.1rem',
+    color: COLORS.primary,
   },
   container: {
     padding: '10px 10px 0',
@@ -17,13 +23,6 @@ const styles = {
     overflowY: 'auto',
     padding: '3px',
     border: '1px solid #ddd',
-  },
-  h3: {
-    margin: '5px 0',
-    color: COLORS.primary,
-  },
-  form: {
-    padding: '10px',
   },
   input: {
     width: '100%',
@@ -40,6 +39,7 @@ export default function UserSnippets() {
   const [snippets, setSnippets] = useState(getSnippets());
   const [key, setKey] = useState('');
   const [value, setValue] = useState('');
+  let keyInput;
 
   const handleTextChange = ({ target: { name, value } }) => {
     if (name === 'key') {
@@ -53,30 +53,40 @@ export default function UserSnippets() {
     e.preventDefault();
     if (key && value) {
       addSnippet(key, value);
-      setSnippets(getSnippets());
+      setKey('');
+      setValue('');
+      setSnippets({ ...getSnippets() });
+      keyInput.focus();
     }
   };
 
   const removeSnippet = (key) => {
     deleteSnippet(key);
-    setSnippets(getSnippets());
+    setSnippets({ ...getSnippets() });
   };
 
   return (
     <fieldset style={styles.fieldset}>
-      <legend>Saved Snippets</legend>
+      <legend style={styles.legend}>Saved Snippets</legend>
       <div style={styles.container}>
         <div style={styles.snippetsContainer}>
           {Object.keys(snippets).map((k) => (
             <ExpandableEntry key={k} entryKey={k} value={snippets[k]} onRemove={removeSnippet} />
           ))}
         </div>
-        <h3 style={styles.h3}>New Snippet</h3>
-        <form style={styles.form} onSubmit={handleFormSubmit}>
-          <input style={styles.input} name="key" type="text" value={key} placeholder="Enter Key" onChange={handleTextChange} />
+        <form onSubmit={handleFormSubmit}>
+          <input
+            style={styles.input}
+            name="key"
+            type="text"
+            value={key}
+            placeholder="Enter Key"
+            onChange={handleTextChange}
+            ref={(input) => { keyInput = input; }}
+          />
           <input style={styles.input} name="value" type="text" value={value} placeholder="Enter Value" onChange={handleTextChange} />
           <div style={styles.controls}>
-            <button className="btn btn-blue round" type="submit">Save</button>
+            <button className="btn btn-blue sm" type="submit">Save</button>
           </div>
         </form>
       </div>

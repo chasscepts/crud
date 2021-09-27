@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchAsync, selectHasPendingRequests } from '../reducers/requestSlice';
 import { requestMethods } from '../utility';
 import LdsRing from './LdsRing';
-import RequestHeader from './RequestHeader';
 
 const styles = {
   container: {
@@ -80,13 +79,12 @@ export default function AddressBar() {
 
   return (
     <form style={styles.container} onSubmit={submit}>
-      <RequestHeader />
       <select style={styles.select} name="method" value={method} onChange={handleChange}>
         {methods.map((m) => <option key={m} value={m}>{m}</option>)}
       </select>
       <input style={styles.url} type="url" placeholder="Enter url" name="url" value={url} onChange={handleChange} />
       <LoadingIndicator />
-      <button style={styles.btn} className="btn btn-blue" type="button">GO</button>
+      <button style={styles.btn} className="btn btn-blue" type="submit">GO</button>
     </form>
   );
 }

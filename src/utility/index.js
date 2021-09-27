@@ -1,3 +1,5 @@
+/* eslint-disable no-bitwise */
+
 export const GET = 'GET';
 
 export const POST = 'POST';
@@ -56,4 +58,35 @@ export const COLORS = {
   gray: '#67899c',
   red: '#9e0606',
   success: '#1e6d19',
+};
+
+export const hash = (param) => {
+  const type = typeof param;
+  if (type === 'boolean' || type === 'number' || type === 'undefined') {
+    return param;
+  }
+
+  if (!param) {
+    return param;
+  }
+
+  let str = param;
+  if (type !== 'string') {
+    try {
+      str = JSON.stringify(param);
+    } catch {
+      return undefined;
+    }
+  }
+
+  let hash = 0;
+  if (str.length === 0) {
+    return hash;
+  }
+  for (let i = 0; i < str.length; i += 1) {
+    const char = str.charCodeAt(i);
+    hash = ((hash << 5) - hash) + char;
+    hash &= hash;
+  }
+  return hash;
 };

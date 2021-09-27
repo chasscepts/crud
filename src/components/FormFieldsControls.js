@@ -1,6 +1,6 @@
-import { useSelector } from 'react-redux';
-import { selectFormFields } from '../reducers/formSlice';
-import FormFieldControl from './FormFieldControl';
+import { useSelector, useDispatch } from 'react-redux';
+import { selectFormFields, removeFormField } from '../reducers/formSlice';
+import EntryControl from './EntryControl';
 
 const styles = {
   container: {
@@ -10,10 +10,16 @@ const styles = {
 
 export default function FormFieldsControls() {
   const fields = useSelector(selectFormFields);
+  const dispatch = useDispatch();
+
+  const handleRemoveClick = (key) => {
+    dispatch(removeFormField(key));
+  };
+
   return (
     <div style={styles.container}>
       {Object.keys(fields).map(
-        (k) => <FormFieldControl key={k} fieldKey={k} value={fields[k]} />,
+        (k) => <EntryControl key={k} fieldKey={k} value={fields[k]} onRemove={handleRemoveClick} />,
       )}
     </div>
   );

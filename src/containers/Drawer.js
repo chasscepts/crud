@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import styles from '../assets/css/Drawer.module.css';
 import UserSnippets from '../components/UserSnippets';
+import RequestHeader from '../components/RequestHeader';
 
 export default function Drawer() {
   const [open, setOpen] = useState(false);
@@ -24,6 +25,7 @@ export default function Drawer() {
         <button className={hamburgerStyle} type="button" onClick={handburgerClick}><span /></button>
       </div>
       <div className={drawerStyle}>
+        <RequestHeader />
         <UserSnippets />
       </div>
     </div>

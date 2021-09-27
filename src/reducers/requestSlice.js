@@ -40,6 +40,9 @@ const requestSlice = createSlice({
       const { key, value } = action.payload;
       state.requestHeaders[key] = value;
     },
+    removeHeader: (state, { payload: { key } }) => {
+      delete state.requestHeaders[key];
+    },
     clearHeaders: (state) => {
       state.requestHeaders = {};
     },
@@ -51,6 +54,7 @@ export const {
   incrementCount,
   setResponse,
   addHeader,
+  removeHeader,
   clearHeaders,
 } = requestSlice.actions;
 

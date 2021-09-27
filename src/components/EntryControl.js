@@ -1,7 +1,5 @@
 import { useState } from 'react';
 import PropTypes from 'prop-types';
-import { useDispatch } from 'react-redux';
-import { removeFormField } from '../reducers/formSlice';
 
 const styles = {
   container: {
@@ -54,12 +52,11 @@ FieldButton.defaultProps = {
   onClick: null,
 };
 
-export default function FormFieldControl({ fieldKey, value }) {
+export default function EntryControl({ fieldKey, value, onRemove }) {
   const [expanded, setExpanded] = useState(false);
-  const dispatch = useDispatch();
 
   const handleRemoveClick = () => {
-    dispatch(removeFormField(fieldKey));
+    onRemove({ key: fieldKey });
   };
 
   const handleExpandClick = () => {
@@ -78,7 +75,8 @@ export default function FormFieldControl({ fieldKey, value }) {
   );
 }
 
-FormFieldControl.propTypes = {
+EntryControl.propTypes = {
   fieldKey: PropTypes.string.isRequired,
   value: PropTypes.string.isRequired,
+  onRemove: PropTypes.func.isRequired,
 };
