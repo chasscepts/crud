@@ -1,0 +1,46 @@
+.container {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.header {
+  text-align: center;
+  background-color: #62b5e5;
+  color: #fff;
+  padding: 15px;
+}
+
+.main {
+  position: relative;
+  flex: 1;
+  display: flex;
+  padding: 4px;
+  overflow: hidden;
+}
+
+.right {
+  flex: 0 0 40%;
+  padding: 5px 0 0 10px;
+  max-width: 40%;
+}
+
+.rightInner {
+  border: 1px solid #ddd;
+  height: 100%;
+}
+
+.left {
+  display: flex;
+  flex-direction: column;
+  flex: 0 0 60%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.formWrap {
+  flex: 1;
+  overflow: hidden;
+}
