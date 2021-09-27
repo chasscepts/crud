@@ -1,0 +1,107 @@
+body,
+html {
+  margin: 0;
+  padding: 0;
+  width: 100vw;
+  height: 100vh;
+  color: #67899c;
+  font-size: 14px;
+  font-family:
+    -apple-system,
+    BlinkMacSystemFont,
+    'Helvetica Neue',
+    'Segoe UI',
+    'Roboto',
+    'Oxygen',
+    'Ubuntu',
+    'Cantarell',
+    'Fira Sans',
+    'Droid Sans',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  box-sizing: border-box;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+a {
+  text-decoration: none;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 0;
+}
+
+input,
+select,
+textarea {
+  outline: none;
+}
+
+input[type=text],
+input[type=email],
+input[type=url],
+input[type=number],
+textarea,
+select {
+  border: 1px solid #ddd;
+}
+
+input[type=text],
+input[type=email],
+input[type=url],
+input[type=number] {
+  padding: 7px 10px;
+}
+
+textarea {
+  padding: 15px;
+}
+
+.btn {
+  padding: 8px 20px;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+}
+
+.btn.sm {
+  padding: 3px 5px;
+}
+
+.btn.round {
+  border-radius: 4px;
+}
+
+.btn.btn-blue {
+  color: #fff;
+  background-color: #62b5e5;
+}
+
+.btn.btn-red {
+  color: #fff;
+  background-color: #d42020;
+}
+
+.btn:hover {
+  opacity: 0.8;
+}
+
+.uppercase {
+  text-transform: uppercase;
+}
+
+.last-clear-margin-bottom:last-child {
+  margin-bottom: 0;
+}
