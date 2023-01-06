@@ -8,7 +8,7 @@ const normalizeError = (err) => {
     return { message: err.response.data.message || JSON.stringify(err.response.data) };
   }
   if (err.request) {
-    return { message: 'Server is not responding. One possibility is that CORS is disabled on server. Check your console to see' };
+    return { message: 'Server is not responding. This may be due to network connectivity or CORS may be disabled on server. Check your console for more details' };
   }
   if (err.message) {
     return { message: err.message };
