@@ -4,7 +4,7 @@ import { selectFormFields } from '../reducers/formSlice';
 
 const styles = {
   container: {
-    padding: '0',
+    padding: '10px 0 0',
   },
 };
 

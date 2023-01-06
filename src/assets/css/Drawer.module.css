@@ -1,6 +1,6 @@
 .hamburger {
   position: absolute;
-  top: 25px;
+  top: 13px;
   right: 15px;
   outline: none;
   border: none;
@@ -78,7 +78,8 @@
 .header {
   position: relative;
   width: 50px;
-  height: 67px;
+  height: 44px;
+  background-color: #62b5e5;
   transition: width 0.5s linear;
   pointer-events: all;
 }
@@ -88,9 +89,14 @@
   border-right: 1px solid #ddd;
 }
 
+.logoWrap {
+  display: inline-block;
+  padding: 7px 0 0 10px;
+}
+
 .drawer {
   position: absolute;
-  top: 67px;
+  top: 44px;
   bottom: 0;
   left: -100%;
   width: 100%;

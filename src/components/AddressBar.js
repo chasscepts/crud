@@ -1,6 +1,11 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchAsync, selectHasPendingRequests } from '../reducers/requestSlice';
+import {
+  fetchAsync,
+  selectHasPendingRequests,
+  selectMethod,
+  selectUrl,
+} from '../reducers/requestSlice';
 import { requestMethods } from '../utility';
 import LdsRing from './LdsRing';
 
@@ -13,20 +18,23 @@ const styles = {
   },
   select: {
     outline: 'none',
-    marginLeft: '4px',
+    margin: '0 8px',
     padding: '7px 0',
   },
   url: {
     flex: 1,
     outline: 'none',
-    margin: '0 0 0 4px',
     padding: '7px 15px',
     height: '100%',
   },
   btn: {
-    paddingLeft: '15px',
-    paddingRight: '15px',
+    width: '51px',
+    textAlign: 'center',
     height: '100%',
+    padding: 0,
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   loader: {
     border: '1px solid #ddd',
@@ -42,24 +50,29 @@ const styles = {
 
 const methods = Object.values(requestMethods);
 
-function LoadingIndicator() {
+const GoBtn = () => {
   const loading = useSelector(selectHasPendingRequests);
-
   if (loading) {
     return (
-      <div style={styles.loader}>
-        <LdsRing width={20} color="#62b5e5" />
+      <div style={styles.btn} className="btn btn-blue">
+        <LdsRing width={20} color="#fff" />
       </div>
     );
   }
-  return <></>;
-}
+
+  return <button style={styles.btn} className="btn btn-blue" type="submit">GO</button>;
+};
 
 export default function AddressBar() {
   const [url, setUrl] = useState('');
   const [method, setMethod] = useState(methods[0]);
+  const storeMethod = useSelector(selectMethod);
+  const storeUrl = useSelector(selectUrl);
 
   const dispatch = useDispatch();
+
+  useEffect(() => setUrl(storeUrl), [storeUrl]);
+  useEffect(() => setMethod(storeMethod), [storeMethod]);
 
   const submit = (e) => {
     e.preventDefault();
@@ -67,8 +80,7 @@ export default function AddressBar() {
     dispatch(fetchAsync(url, method));
   };
 
-  const handleChange = (evt) => {
-    const { name, value } = evt.target;
+  const handleChange = ({ target: { name, value } }) => {
     if (name === 'url') {
       setUrl(value);
     } else if (name === 'method') {
@@ -78,12 +90,11 @@ export default function AddressBar() {
 
   return (
     <form style={styles.container} onSubmit={submit}>
+      <input style={styles.url} type="url" placeholder="Enter url" name="url" value={url} onChange={handleChange} />
       <select style={styles.select} name="method" value={method} onChange={handleChange}>
         {methods.map((m) => <option key={m} value={m}>{m}</option>)}
       </select>
-      <input style={styles.url} type="url" placeholder="Enter url" name="url" value={url} onChange={handleChange} />
-      <LoadingIndicator />
-      <button style={styles.btn} className="btn btn-blue" type="submit">GO</button>
+      <GoBtn />
     </form>
   );
 }

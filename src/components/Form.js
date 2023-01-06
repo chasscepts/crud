@@ -1,5 +1,6 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
+import PropTypes from 'prop-types';
 import { resetForm, setFormField } from '../reducers/formSlice';
 import { COLORS } from '../utility';
 
@@ -46,19 +47,21 @@ const styles = {
 
 const dataTypes = ['string', 'number', 'boolean', 'array', 'object', 'text', 'others'];
 
-export default function Form() {
-  const [key, setKey] = useState('');
-  const [value, setValue] = useState('');
+const Form = ({
+  entryKey,
+  value,
+  setKey,
+  setValue,
+}) => {
   const [type, setType] = useState(dataTypes[0]);
   const [valueError, setValueError] = useState('');
+  const keyInput = useRef(null);
 
   const dispatch = useDispatch();
 
-  let keyInput;
-
   const submit = (e) => {
     e.preventDefault();
-    if (!key) return;
+    if (!entryKey) return;
     let val = value;
     if (type === 'number') {
       val = parseFloat(value);
@@ -90,15 +93,14 @@ export default function Form() {
         return;
       }
     }
-    dispatch(setFormField({ key, value: val }));
+    dispatch(setFormField({ key: entryKey, value: val }));
     setKey('');
     setValue('');
     setValueError('');
-    keyInput.focus();
+    keyInput.current.focus();
   };
 
-  const handleChange = (evt) => {
-    const { name, value: val } = evt.target;
+  const handleChange = ({ target: { name, value: val } }) => {
     if (name === 'key') {
       setKey(val);
     } else if (name === 'value') {
@@ -123,74 +125,92 @@ export default function Form() {
 
   return (
     <form onSubmit={submit}>
-      <div style={styles.label}>
+      <label style={styles.label} htmlFor="key">
         <span style={styles.labelText}>Entry Key</span>
         <input
+          id="key"
           name="key"
           style={styles.keyInput}
           type="text"
           placeholder="Enter Key"
           onChange={handleChange}
-          value={key}
-          ref={(kInput) => { keyInput = kInput; }}
+          value={entryKey}
+          ref={keyInput}
         />
-      </div>
+      </label>
       <div style={{ ...styles.label, padding: '20px 0' }}>
         <span style={styles.labelText}>Choose Data Type</span>
         <select style={styles.select} name="type" value={type} onChange={handleChange}>
           {dataTypes.map((type) => <option key={type} value={type}>{type}</option>)}
         </select>
       </div>
-      <div style={styles.label}>
+      <label style={styles.label} htmlFor="value">
         <span style={styles.labelText}>Entry Value</span>
         {valueError && <div style={styles.error}>{valueError}</div>}
-        {type === 'string' && (
-        <input
-          style={styles.keyInput}
-          name="value"
-          type="text"
-          value={value}
-          onChange={handleChange}
-        />
-        )}
-        {type === 'number' && (
-        <input
-          style={styles.keyInput}
-          name="value"
-          type="number"
-          value={value}
-          onChange={handleChange}
-        />
-        )}
-        {(type === 'text' || type === 'array' || type === 'object') && (
-        <textarea
-          name="value"
-          style={styles.valueField}
-          rows="10"
-          placeholder="Value"
-          onChange={handleChange}
-          value={value}
-          onKeyUp={handleKeyUp}
-        />
-        )}
-        {type === 'boolean' && (
-        <select style={styles.select} name="value" value={value} onChange={handleChange}>
-          <option>True</option>
-          <option value={false}>False</option>
-        </select>
-        )}
-        {type === 'others' && (
-        <select style={styles.select} name="value" value={value} onChange={handleChange}>
-          <option value="null">Null</option>
-        </select>
-        )}
-      </div>
+        {type === 'string' ? (
+          <input
+            id="value"
+            style={styles.keyInput}
+            name="value"
+            type="text"
+            value={value}
+            onChange={handleChange}
+          />
+        ) : null}
+        {type === 'number' ? (
+          <input
+            id="value"
+            style={styles.keyInput}
+            name="value"
+            type="number"
+            value={value}
+            onChange={handleChange}
+          />
+        ) : null}
+        {(type === 'text' || type === 'array' || type === 'object') ? (
+          <textarea
+            name="value"
+            style={styles.valueField}
+            rows="10"
+            placeholder="Value"
+            onChange={handleChange}
+            id="value"
+            value={value}
+            onKeyUp={handleKeyUp}
+          />
+        ) : null}
+        {type === 'boolean' ? (
+          <select style={styles.select} id="value" name="value" value={value} onChange={handleChange}>
+            <option>True</option>
+            <option value={false}>False</option>
+          </select>
+        ) : null}
+        {type === 'others' ? (
+          <select style={styles.select} id="value" name="value" value={value} onChange={handleChange}>
+            <option value="null">Null</option>
+          </select>
+        ) : null}
+      </label>
       <div style={styles.formControls}>
-        <button className="btn btn-blue sm" type="submit">Add Entry</button>
-        <button style={styles.clearBtn} className="btn btn-red sm" type="button" onClick={handleResetForm}>
-          Clear Form
+        <button className="btn btn-blue" type="submit">Enter</button>
+        <button style={styles.clearBtn} className="btn btn-red" type="button" onClick={handleResetForm}>
+          Clear
         </button>
       </div>
     </form>
   );
-}
+};
+
+Form.propTypes = {
+  entryKey: PropTypes.string,
+  value: PropTypes.string,
+  setKey: PropTypes.func.isRequired,
+  setValue: PropTypes.func.isRequired,
+};
+
+Form.defaultProps = {
+  entryKey: '',
+  value: '',
+};
+
+export default Form;

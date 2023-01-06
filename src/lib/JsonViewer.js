@@ -22,8 +22,11 @@ const styles = {
   keyRow: (depth) => ({
     position: 'relative',
     display: 'flex',
-    alignItems: 'center',
+    width: '100%',
+    overflowX: 'hidden',
+    alignItems: 'flex-start',
     paddingLeft: `${10 + (depth * 16)}px`,
+    paddingRight: '8px',
   }),
   close: (depth) => ({
     paddingLeft: `${10 + (depth * 16)}px`,
@@ -52,6 +55,10 @@ const styles = {
   collapsedContent: {
     padding: '0 2px',
   },
+  value: {
+    flex: 1,
+    wordBreak: 'break-all',
+  },
 };
 
 function JsonRow({
@@ -77,8 +84,7 @@ function JsonRow({
           <span style={styles.sep}>:</span>
         </>
         )}
-        <span style={colors[lType]}>{val}</span>
-        <span style={colors[lType]}>,</span>
+        <span style={{ ...styles.value, ...colors[lType] }}>{`${val},`}</span>
       </div>
     );
   }

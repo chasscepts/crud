@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import PropTypes from 'prop-types';
+import deleteIcon from '../assets/images/delete.png';
 
 const styles = {
   container: {
@@ -28,8 +29,24 @@ const styles = {
     fontSize: '0.8rem',
     cursor: 'pointer',
   }),
+  btn: {
+    width: '22px',
+    height: '22px',
+    border: '1px solid #eee',
+    borderRadius: '3px',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    fontSize: '0.8rem',
+    cursor: 'pointer',
+  },
+  img: {
+    width: '22px',
+    height: '22px',
+  },
   valueText: {
     padding: '0 5px 5px 35px',
+    wordBreak: 'break-all',
   },
 };
 
@@ -82,7 +99,9 @@ export default function EntryControl({ fieldKey, value, onRemove }) {
       <div style={styles.keyRow}>
         <FieldButton char={expanded ? '-' : '+'} onClick={handleExpandClick} />
         <div style={styles.keyText}>{fieldKey}</div>
-        <FieldButton char="X" color="red" onClick={handleRemoveClick} />
+        <button type="button" style={styles.btn} onClick={handleRemoveClick}>
+          <img src={deleteIcon} alt="delete" style={styles.img} />
+        </button>
       </div>
       {expanded && <div style={styles.valueText}>{val}</div>}
     </div>

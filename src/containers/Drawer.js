@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import styles from '../assets/css/Drawer.module.css';
-import UserSnippets from '../components/UserSnippets';
-import RequestHeader from '../components/RequestHeader';
+import logo from '../assets/images/http.png';
+import SavedSites from '../components/SavedSites';
 
 export default function Drawer() {
   const [open, setOpen] = useState(false);
@@ -21,12 +21,13 @@ export default function Drawer() {
   return (
     <div className={styles.container}>
       <div className={headerStyle}>
-        {/* eslint-disable-next-line */}
-        <button className={hamburgerStyle} type="button" onClick={handburgerClick}><span /></button>
+        {open ? <div className={styles.logoWrap}><img src={logo} width={30} alt="logo" /></div> : null}
+        <button className={hamburgerStyle} type="button" onClick={handburgerClick}>
+          <span />
+        </button>
       </div>
       <div className={drawerStyle}>
-        <RequestHeader />
-        <UserSnippets />
+        <SavedSites />
       </div>
     </div>
   );

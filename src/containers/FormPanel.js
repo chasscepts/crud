@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import Form from '../components/Form';
 import TabControl from './TabControl';
 import FormFieldsControls from '../components/FormFieldsControls';
@@ -10,10 +11,10 @@ const styles = {
     overflow: 'hidden',
   },
   fieldset: {
+    border: '1px solid #ddd',
+    borderTopWidth: 0,
+    padding: '10px 5px 5px',
     height: '100%',
-    padding: '10px 0 0',
-    border: `0 dotted ${COLORS.primary}`,
-    borderTopWidth: '1px',
   },
   legend: {
     fontWeight: 'bold',
@@ -48,30 +49,29 @@ const styles = {
 };
 
 export default function FormPanel() {
+  const [key, setKey] = useState('');
+  const [value, setValue] = useState('');
+
   return (
     <div style={styles.container}>
-      <fieldset style={styles.fieldset}>
-        <legend style={styles.legend}>
-          Form
-          <span style={styles.legendRider}>[Uploaded in POST/PUT requests]</span>
-        </legend>
+      <div style={styles.fieldset}>
         <div style={styles.body}>
           <div style={styles.left}>
-            <Form />
+            <Form entryKey={key} value={value} setKey={setKey} setValue={setValue} />
           </div>
           <div style={styles.right}>
             <TabControl
               activeHeader="Controls"
               headers={['Controls', 'JSON']}
               items={[
-                <FormFieldsControls key="controls" />,
+                <FormFieldsControls key="controls" setKey={setKey} setValue={setValue} />,
                 <FormFieldsJson key="json" />,
               ]}
-              panelStyle={{ overflow: 'auto', borderTop: '1px solid #62b5e5' }}
+              panelStyle={{ overflow: 'auto' }}
             />
           </div>
         </div>
-      </fieldset>
+      </div>
     </div>
   );
 }

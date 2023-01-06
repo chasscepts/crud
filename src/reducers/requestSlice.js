@@ -10,6 +10,8 @@ const requestSlice = createSlice({
     hasPendingRequests: false,
     count: 0,
     error: null,
+    url: '',
+    method: 'GET',
     responseBody: null,
     responseHeader: null,
     requestHeaders: {},
@@ -19,8 +21,8 @@ const requestSlice = createSlice({
       state.count += 1;
       state.hasPendingRequests = true;
     },
-    setResponse: (state, { payload: { body, error, header } }) => {
-      state.responseHeader = header;
+    setResponse: (state, { payload: { body, error, headers } }) => {
+      state.responseHeader = headers;
       if (error) {
         state.error = error;
         state.responseBody = null;
@@ -46,6 +48,12 @@ const requestSlice = createSlice({
     clearHeaders: (state) => {
       state.requestHeaders = {};
     },
+    setMethod: (state, { payload }) => {
+      state.method = payload;
+    },
+    setUrl: (state, { payload }) => {
+      state.url = payload;
+    },
   },
 });
 /* eslint-enable no-param-reassign */
@@ -56,11 +64,16 @@ export const {
   addHeader,
   removeHeader,
   clearHeaders,
+  setMethod,
+  setUrl,
 } = requestSlice.actions;
 
 export const fetchAsync = (url, method) => (dispatch, getState) => {
   const state = getState();
   dispatch(incrementCount());
+  dispatch(setMethod(method));
+  dispatch(setUrl(url));
+
   let headers = null;
 
   if (Object.keys(state.request.requestHeaders).length > 0) {
@@ -84,7 +97,7 @@ export const fetchAsync = (url, method) => (dispatch, getState) => {
 
   fetcher
     .then(({ headers, body }) => dispatch(setResponse({ error: null, headers, body })))
-    .catch((error) => dispatch(setResponse({ header: null, error, body: null })));
+    .catch((error) => dispatch(setResponse({ headers: null, error, body: null })));
 };
 
 export const selectHasPendingRequests = (state) => state.request.hasPendingRequests;
@@ -96,5 +109,9 @@ export const selectResponseHeader = (state) => state.request.responseHeader;
 export const selectResponseBody = (state) => state.request.responseBody;
 
 export const selectRequestHeaders = (state) => state.request.requestHeaders;
+
+export const selectUrl = (state) => state.request.url;
+
+export const selectMethod = (state) => state.request.method;
 
 export default requestSlice.reducer;
