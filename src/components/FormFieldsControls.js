@@ -1,14 +1,15 @@
 import { useSelector, useDispatch } from 'react-redux';
+import PropTypes from 'prop-types';
 import { selectFormFields, removeFormField } from '../reducers/formSlice';
-import EntryControl from './EntryControl';
+import ExpandableEntry from './ExpandableEntry';
 
 const styles = {
   container: {
-    padding: '10px 0',
+    padding: '5px 10px',
   },
 };
 
-export default function FormFieldsControls() {
+const FormFieldsControls = ({ setKey, setValue }) => {
   const fields = useSelector(selectFormFields);
   const dispatch = useDispatch();
 
@@ -16,11 +17,29 @@ export default function FormFieldsControls() {
     dispatch(removeFormField(key));
   };
 
+  const handleEdit = (key, value) => {
+    setKey(key);
+    setValue(value);
+  };
+
   return (
     <div style={styles.container}>
-      {Object.keys(fields).map(
-        (k) => <EntryControl key={k} fieldKey={k} value={fields[k]} onRemove={handleRemoveClick} />,
-      )}
+      {Object.keys(fields).map((k) => (
+        <ExpandableEntry
+          key={k}
+          entryKey={k}
+          value={fields[k]}
+          onRemove={handleRemoveClick}
+          onEdit={handleEdit}
+        />
+      ))}
     </div>
   );
-}
+};
+
+FormFieldsControls.propTypes = {
+  setKey: PropTypes.func.isRequired,
+  setValue: PropTypes.func.isRequired,
+};
+
+export default FormFieldsControls;

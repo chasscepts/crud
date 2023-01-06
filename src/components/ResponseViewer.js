@@ -21,6 +21,7 @@ const styles = {
   tabWrap: {
     flex: 1,
     overflow: 'hidden',
+    marginTop: '5px',
   },
 };
 
@@ -43,7 +44,7 @@ export default function ResponseViewer() {
             <JsonViewer key="Body" json={body} />,
             <JsonViewer key="Error" json={error} />,
           ]}
-          panelStyle={{ overflow: 'auto', borderTop: '1px solid #62b5e5' }}
+          panelStyle={{ overflow: 'auto' }}
         />
       </div>
     </div>

@@ -4,22 +4,34 @@ import PropTypes from 'prop-types';
 const styles = {
   tab: {
     height: '100%',
+    width: '100%',
     display: 'flex',
     flexDirection: 'column',
   },
   header: {
     display: 'flex',
+    position: 'relative',
+    width: '100%',
+  },
+  headerBorder: {
+    position: 'absolute',
+    left: 0,
+    bottom: 0,
+    width: '100%',
+    borderBottom: '1px solid #62b5e5',
   },
   items: {
     flex: 1,
   },
   headerBtn: (isActive) => ({
+    position: 'relative',
     outline: 'none',
-    border: '1px solid #ddd',
+    border: `1px solid ${isActive ? '#62b5e5' : '#eee'}`,
+    borderBottomColor: isActive ? '#fff' : '#62b5e5',
     padding: '8px 20px',
     cursor: 'pointer',
-    color: isActive ? '#fff' : 'inherit',
-    backgroundColor: isActive ? '#62b5e5' : 'transparent',
+    color: isActive ? '#62b5e5' : 'inherit',
+    backgroundColor: 'transparent',
   }),
 };
 
@@ -59,6 +71,7 @@ export default function TabControl({
   return (
     <div style={styles.tab}>
       <div style={styles.header}>
+        <div style={styles.headerBorder} />
         {headers.map(
           (h) => <Header key={h} label={h} isActive={activeTab === h} clickHandler={switchTab} />,
         )}

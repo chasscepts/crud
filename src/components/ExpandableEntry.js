@@ -2,6 +2,7 @@ import { useState } from 'react';
 import PropTypes from 'prop-types';
 import copyIcon from '../assets/images/copy.png';
 import deleteIcon from '../assets/images/delete.png';
+import editIcon from '../assets/images/pencil.png';
 import { copyToClipboard } from '../utility';
 
 const styles = {
@@ -41,18 +42,19 @@ const styles = {
     width: '100%',
     maxHeight: '150px',
     overflow: 'auto',
-    wordBreak: 'break-word',
+    wordBreak: 'break-all',
   },
 };
 
-export default function ExpandableEntry({ entryKey, value, onRemove }) {
+export default function ExpandableEntry({
+  entryKey,
+  value,
+  onRemove,
+  onEdit,
+}) {
   const [expanded, setExpanded] = useState(false);
 
-  const handleRemoveClick = () => {
-    if (onRemove) {
-      onRemove(entryKey);
-    }
-  };
+  const handleEditClick = () => onEdit(entryKey, value);
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
@@ -69,14 +71,21 @@ export default function ExpandableEntry({ entryKey, value, onRemove }) {
           <span>{expanded ? '-' : '+'}</span>
         </button>
         <div style={styles.keyText}>{entryKey}</div>
-        <button style={styles.btn} type="button" onClick={copyValue} title="Copy">
+        <button style={styles.btn} type="button" onClick={copyValue} title="Copy Value">
           <img style={styles.icon} alt="copy" src={copyIcon} />
         </button>
-        <button style={styles.btn} type="button" onClick={handleRemoveClick} title="Delete">
-          <img style={styles.icon} alt="delete" src={deleteIcon} />
-        </button>
+        {onEdit ? (
+          <button style={styles.btn} type="button" onClick={handleEditClick} title="Edit Entry">
+            <img style={styles.icon} alt="edit" src={editIcon} />
+          </button>
+        ) : null}
+        {onRemove ? (
+          <button style={styles.btn} type="button" onClick={onRemove} title="Delete Entry">
+            <img style={styles.icon} alt="delete" src={deleteIcon} />
+          </button>
+        ) : null}
       </div>
-      {expanded && <div style={styles.valueText}>{value}</div>}
+      {expanded ? <div style={styles.valueText}>{value}</div> : null}
     </div>
   );
 }
@@ -85,8 +94,10 @@ ExpandableEntry.propTypes = {
   entryKey: PropTypes.string.isRequired,
   value: PropTypes.string.isRequired,
   onRemove: PropTypes.func,
+  onEdit: PropTypes.func,
 };
 
 ExpandableEntry.defaultProps = {
   onRemove: null,
+  onEdit: null,
 };
